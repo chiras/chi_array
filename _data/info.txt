@@ -1,0 +1,3 @@
+# This folder is dedicated to data only 
+# any subfolders should be ignored otherwise they will be committed to the web
+

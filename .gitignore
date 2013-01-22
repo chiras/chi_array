@@ -1,14 +1,21 @@
 ## generic files to ignore
 *~
 *.lock
-*.DS_Store
-*/.DS_Store
 *.swp
 *.out
+*.DS_Store
+_mactool/.DS_Store
+_ressources/.DS_Store
+_scripts/.DS_Store
+_scripts_old/.DS_Store
+data/.DS_Store
+output/.DS_Store
+parameters/.DS_Store
 
 ## these are copyrighted items, please get them over the official way
 _ressources/GenesetsU133plus2.RData
 
 ## we neither want to share data nor our parameters for the analyses
 data/*/
+output/*/
 parameters/*.R

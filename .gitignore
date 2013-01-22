@@ -1,3 +1,14 @@
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*/.DS_Store
+*.swp
+*.out
+
+## these are copyrighted items, please get them over the official way
 _ressources/GenesetsU133plus2.RData
+
+## we neither want to share data nor our parameters for the analyses
 data/*/
 parameters/*.R

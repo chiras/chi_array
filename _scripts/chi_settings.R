@@ -10,19 +10,21 @@ file_log=c()
 adv_log=c()
 
 
-if (file.exists("R-Output")){
+if (file.exists(paste(PATHoutp,"/",analysis,sep=""))){
+	textlevel = leveltext("Results directory already exists","up",textlevel)
 } else {
-    cat("Setting up results directory\n")
+	textlevel = leveltext("Setting up results directors","up",textlevel)
     analysis_log=c(analysis_log,"Setting up results directory")
     
-    dir.create("R-Output")
-    dir.create("R-Output/Plots")
-    dir.create("R-Output/KEGGdata")
-    dir.create("R-Output/MFA-Plots")
+    dir.create(paste(PATHoutp,"/",analysis,sep=""))
+    dir.create(paste(PATHoutp,"/",analysis,"/Q-Plots",sep=""))
+    dir.create(paste(PATHoutp,"/",analysis,"/SA-Plots",sep=""))
+   # dir.create("R-Output/KEGGdata")
+    dir.create(paste(PATHoutp,"/",analysis,"/MFA-Plots",sep=""))
 }
 
 
-cat("(Checking Analysis Parameters) - Currently disabled!\n")
+textlevel = leveltext("(Checking Analysis Parameters) - Currently disabled!","keep",textlevel)
 
 # checking whether all parameters have been correctly defined
 #continue = c();
@@ -42,3 +44,10 @@ cat("(Checking Analysis Parameters) - Currently disabled!\n")
 	
 #	if (!file.exists(filename_norm_data)) 									{continue = c(continue, paste('- File with normalized data not found, should be: ', filename_norm_data,"\n", sep=""))}
 #}
+
+textlevel = leveltext("Preparing test design contrast matrices\n","keep",textlevel)
+
+for(i in 2:length(analysesList)){
+	analysesList[[i]]$contrast.matrix				= makeContrasts(analysesList[[i]]$comparison, levels=analysesList[[i]]$design)
+	
+}

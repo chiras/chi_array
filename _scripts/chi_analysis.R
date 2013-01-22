@@ -19,27 +19,34 @@ for (i in 2:length(analysesList)){
 												analysesList[[i]]$Filtering$IQR_intens_probes,
 												analysesList[[i]]$Filtering$IQR_greater_than,
 												analysesList[[i]]$Filtering$logFC_threshold)
+
+
+	textlevel = leveltext("Writing filtered data to file","up",textlevel)
 												
 	analysesList[[i]]$tab.hit 	= chi_eset2sigs(analysesList[[i]]$eset.sig,analysesList[[i]]$tab)
 	analysesList[[i]]$tab.sig 	= chi_eset2bins(analysesList[[i]]$eset.sig,analysesList[[i]]$tab)
+	tx = length(analysesList[[i]]$tab.hit[,1])
 	
+	write.table(analysesList[[i]]$tab.hit, file=paste(PATHoutp,"/",analysis,'/results_',analysesList[[i]]$name,'_top',tx,'-',normalisierung,'.txt', sep=""),sep=";")
+
 	if(analysesList[[i]]$toDo$includeMFA){
 		setlistPLUS[[analysesList[[i]]$name]] = analysesList[[i]]$tab$ID[analysesList[[i]]$tab.sig==1]
 		setlistMINUS[[analysesList[[i]]$name]] = analysesList[[i]]$tab$ID[analysesList[[i]]$tab.sig==-1]
 	}
-	cat("\n")		
+
+	textlevel = leveltext("Analyses completed\n","keep",textlevel)
+	textlevel = leveltext("","down",textlevel)
+		
 }
 
 #### Multifaktorial Steps
 # Venn
-cat("Plotting Venn Diagrams\n")		
-
+textlevel = leveltext("Plotting Venn Diagrams","keep",textlevel)
 chi_venn(setlistPLUS,setlistMINUS)
 
 # Heatmaps
-
-cat(noquote("Converting Genes to Probesets\n"))
-analysis_log=c(analysis_log,"Converting Genes to Probesets")
+textlevel = leveltext("Plotting heatmaps","keep",textlevel)
+textlevel = leveltext("Converting Genes to Probesets","up",textlevel)
 
 if (length(mygroups)>0){
 for(z in 1:length(mygroups)){
@@ -51,8 +58,7 @@ for(z in 1:length(mygroups)){
 }	
 }
 
-cat(noquote("Converting Pathways to Probesets\n"))
-analysis_log=c(analysis_log,"Converting Pathways to Probesets")
+textlevel = leveltext("Converting Pathways to Probesets","keep",textlevel)
 
 if (length(mypaths)>0){
 for(z in 1:length(mypaths)){
@@ -65,9 +71,7 @@ for(z in 1:length(mypaths)){
 }
 	
 ############# MIT PROBESETS DANN GEMEINSAM WEITER
-cat(noquote("Preparing Heatmaps\n"))
-analysis_log=c(analysis_log,"Preparing Heatmaps")
-
+textlevel = leveltext("Preparing Heatmaps","keep",textlevel)
 
 for(z in 1:length(myprobes)){
 	y = unique(myprobes[[z]])
@@ -97,10 +101,9 @@ for(z in 1:length(myprobes)){
 	row.names(heat.matrix) <- paste(tmp_lst[[1]]$Symbol," (",tmp_lst[[1]]$ID,")", sep="")
 	hmcol<-brewer.pal(11,"RdBu")
 
-  cat(noquote(paste("Plotting Heatmaps (",nameplot,")\n", sep="")))
-  analysis_log=c(analysis_log,paste("Plotting Heatmaps (",nameplot,")", sep=""))
+  textlevel = leveltext(paste("Plotting Heatmaps (",nameplot,")", sep=""),"keep",textlevel)
     
-pdf(file=paste('R-Output/MFA-Plots/Heat_',nameplot,'.pdf', sep=""), height=2+length(tmp_lst[[1]]$ID)/5,width=(length(tmp_lst)+1)*2)
+pdf(file=paste(PATHoutp,"/",analysis,'/MFA-Plots/Heat_',nameplot,'.pdf', sep=""), height=2+length(tmp_lst[[1]]$ID)/5,width=(length(tmp_lst)+1)*2)
 heatmap.chi(heat.matrix, key=F, dendrogram="none", trace="none",col= rev(hmcol),   margins = c(12, 12), cellnote=round(heat.matrix, digits=3), notecol="black", Rowv=NA, Colv=NA, scale="none",
  add.expr = abline(h = c(0.5,cumsum(rev(table(tmp_lst[[1]]$Symbol)))+0.5), v=c(0.5,1.5,5.5), lwd = 3), xlab= nameplot, cexRow = 1.05,
  #labCol = c(paste("Scale (",scalename,")",sep=""),complist$wisp1_msc$name,complist$wisp3_msc$name,complist$wisp1_cho$name ,complist$wisp3_cho$name),
@@ -108,9 +111,6 @@ heatmap.chi(heat.matrix, key=F, dendrogram="none", trace="none",col= rev(hmcol),
 #heatmap.2(heat.matrix, key=F, dendrogram="none", trace="none",lwid=c(5,5), col= hmcol, lhei=c(5,5),   margins = c(12, 12), cellnote=round(heat.matrix, digits=3), notecol="black", Rowv=NA, Colv=NA, scale="none",add.expr = abline(h = c(0.5,cumsum(rev(table(tab_wisp1_x_sort_msc$Symbol)))+0.5), v=c(0.5,1.5,5.5), lwd = 3), xlab= nameplot, labCol = c("Scale (sh-scr)","WISP1 MSCs","WISP3 MSCs","WISP1 Cho","WISP1 Cho"))
 dev.off()
     
-    dir_log=c(dir_log,paste('R-Output/MFA-Plots/MFA_',nameplot,'.pdf', sep=""))
-    file_log=c(file_log,paste("MFA Heatmap (",nameplot,")", sep=""))
-
 }
 
 
@@ -136,9 +136,10 @@ dev.off()
 ######## GO ENRICHMENT #################################################################
 ########################################################################################
 
-for (i in 2:length(analysesList)){
-	chi_gostats (analysesList[[i]]$name, analysesList[[i]]$eset.sig,eset.norm)
-}
+textlevel = leveltext("GO/KEGG enrichment analysis","down",textlevel)
+#for (i in 2:length(analysesList)){
+#	chi_gostats (analysesList[[i]]$name, analysesList[[i]]$eset.sig,eset.norm)
+#}
 
 # 	##########################################################################################
 	# ######## HEATMAPS ######################################################################

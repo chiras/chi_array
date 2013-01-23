@@ -9,8 +9,8 @@ Please be aware that it has been designed for specific purposes needed in our re
 
 (2) Testing design: 
     - Single analysis: SampleA vs. SampleB
-       -> Differential gene expression analysis
-       Example: KnockDown Cells vs. Control Cells
+    -> Differential gene expression analysis
+    Example: KnockDown Cells vs. Control Cells
 
     - Multiple analysis: (SampleA vs. SampleB) vs. (SampleC vs. SampleD)\n
     -> Comparison between differential expressions

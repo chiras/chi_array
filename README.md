@@ -8,9 +8,9 @@ Please be aware that it has been designed for specific purposes needed in our re
 (1) Valid chip data: Affymetrix HGU133plus2.0 only. The script may work with other chips, provided that you adapt annotation data accordingly
 
 (2) Testing design: 
-  Single analysis: SampleA vs. SampleB
-    -> Differential gene expression analysis
-    Example: KnockDown Cells vs. Control Cells
+    Single analysis: SampleA vs. SampleB
+       -> Differential gene expression analysis
+       Example: KnockDown Cells vs. Control Cells
 
   Multiple analysis: (SampleA vs. SampleB) vs. (SampleC vs. SampleD)
     -> Comparison between differential expressions

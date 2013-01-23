@@ -8,6 +8,21 @@ Please be aware that it has been designed for specific purposes needed in our re
 What it does:
 --------------
 
+Analyses:
+- Various normalization methods implemented in Bioconductor
+- Various quality and data constitution plots 
+- Linear model statistics
+- Filtering via AFFX cut, IQR and/or logFC cutoff
+- Calculating overlaps and Venn plots in comparison between differential expressions
+- Heatmaps for specific probesets, pathways or genes
+- GO/KEGG enrichment analysis
+
+Further features:
+- Automatically detecting/checking/setting the global enviroment for the analysis
+- Logging analytical steps, used parameters and errors/warnings into files
+- Automatically downloading and loading required packages for R and Bioconductor
+- Loading custom analytical functions
+- Validating input parameters
 
 
 How to use it:

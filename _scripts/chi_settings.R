@@ -10,18 +10,6 @@ file_log=c()
 adv_log=c()
 
 
-if (file.exists(paste(PATHoutp,"/",analysis,sep=""))){
-	textlevel = leveltext("Results directory already exists","up",textlevel)
-} else {
-	textlevel = leveltext("Setting up results directors","up",textlevel)
-    analysis_log=c(analysis_log,"Setting up results directory")
-    
-    dir.create(paste(PATHoutp,"/",analysis,sep=""))
-    dir.create(paste(PATHoutp,"/",analysis,"/Q-Plots",sep=""))
-    dir.create(paste(PATHoutp,"/",analysis,"/SA-Plots",sep=""))
-   # dir.create("R-Output/KEGGdata")
-    dir.create(paste(PATHoutp,"/",analysis,"/MFA-Plots",sep=""))
-}
 
 
 textlevel = leveltext("(Checking Analysis Parameters) - Currently disabled!","keep",textlevel)

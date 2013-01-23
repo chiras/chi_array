@@ -69,6 +69,10 @@ library(grid)
 
 source(paste(PATHscpt,"/tgirke_venn.R",sep=""))
 
+textlevel = leveltext("Loading Chip Annotation Data","keep",textlevel)
+load(paste(PATHress,"/GenesetsU133plus2.RData",sep=""))												# Chip Annotation data
+
+
 textlevel = leveltext("Preparing annotation data\n","keep",textlevel)
 pathinfo <- as.list(hgu133plus2PATH2PROBE)
 pregeneinfo <-  hgu133plus2SYMBOL

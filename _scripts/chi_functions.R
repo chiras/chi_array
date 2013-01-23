@@ -113,10 +113,14 @@ chi_eset2sigs <- function (eset, tab.orig){
 }
 
 chi_eset2bins <- function (eset, tab.orig){
-	textlevel = leveltext("Returning significant rows in tabs","up",textlevel)
+	textlevel = leveltext("Returning significant hits","up",textlevel)
 
 	inters= !tab.orig$ID %in% featureNames(eset)
-	tab.tmp = 2*(tab.orig$t>0)-1 
+	tab.tmp = tab.orig$t
+	tab.tmp[tab.orig$t>0] = 1 
+	tab.tmp[tab.orig$t<0] = -1 
+	tab.tmp[tab.orig$t==0] = 0 
+
 	tab.tmp[inters] = 0
 	return(tab.tmp)
 }
@@ -129,11 +133,47 @@ OLlistPLUS <- overLapper(setlist=setlistPLUS, sep="_", type="vennsets")
 OLlistMINUS <- overLapper(setlist=setlistMINUS, sep="_", type="vennsets")
 
 pdf(file=paste(PATHoutp,"/",analysis,'/MFA-Plots/Venn_',paste(names(setlistPLUS), collapse = "-"),'.pdf', sep=""))
-	counts <- list(sapply(OLlistPLUS$Venn_List, length), sapply(OLlistMINUS$Venn_List, length));
+	counts <- list(sapply(OLlistMINUS$Venn_List, length), sapply(OLlistPLUS$Venn_List, length));
 	vennPlot(counts=counts, mysub="Top: Up-regulated; Bottom: Down-regulated")
 dev.off()
 
 }}
+
+chi_overlap <- function(setlistPLUS,setlistMINUS){
+	overlap = list()
+	overlap$both_up = list()
+	overlap$both_down = list()
+	overlap$contrary = list()
+
+	for (i in 1:length(setlistPLUS)){
+	for (j in i:length(setlistPLUS)){
+		if(i != j){
+			namecomp=paste(names(setlistPLUS)[i],"--",names(setlistPLUS)[j],sep="")
+			overlap$both_up[[namecomp]]=setlistPLUS[[i]][setlistPLUS[[i]] %in% setlistPLUS[[j]]]
+			if(length(overlap$both_up[[namecomp]])==0){overlap$both_up[[namecomp]]=NA}
+		}
+	}}
+	
+	for (i in 1:length(setlistMINUS)){
+	for (j in i:length(setlistMINUS)){
+		if(i != j){
+			namecomp=paste(names(setlistMINUS)[i],"--",names(setlistMINUS)[j],sep="")
+			overlap$both_down[[namecomp]]=setlistMINUS[[i]][setlistMINUS[[i]] %in% setlistMINUS[[j]]]
+			if(length(overlap$both_down[[namecomp]])==0){overlap$both_down[[namecomp]]=NA}
+		}
+	}}
+
+	for (i in 1:length(setlistPLUS)){
+	for (j in i:length(setlistMINUS)){
+		if(i != j){
+			namecomp=paste(names(setlistPLUS)[i],"--",names(setlistMINUS)[j],sep="")
+			overlap$contrary[[namecomp]]=setlistPLUS[[i]][setlistPLUS[[i]] %in% setlistMINUS[[j]]]
+			if(length(overlap$contrary[[namecomp]])==0){overlap$contrary[[namecomp]]=NA}
+		}
+	}}
+	return(overlap)
+}
+
 
 ########################################################################################
 ######## Heat Preparation #(OLD)########################################################
@@ -649,10 +689,11 @@ InteractKeggPlot <- function(top_table, pathName){
 ########################################################################################
 
 
-textlevel = leveltext("Chi-GOstats function\n","keep",textlevel)
+textlevel = leveltext("Chi-GOstats function","keep",textlevel)
 chi_gostats <- function(analysisname, eset.sig.norm,eset.norm){
 
-cat(noquote("GOstats: Obtaining Gene Clusters and Universe\n"))
+textlevel = leveltext("Obtaining Gene Clusters and Universe","up",textlevel)
+
 geneCluster=as.vector(na.omit(getEG(featureNames(eset.sig.norm),"hgu133plus2")))
 geneCluster2=as.vector(na.omit(getSYMBOL(featureNames(eset.sig.norm),"hgu133plus2")))
 geneCluster3=featureNames(eset.sig.norm)
@@ -666,31 +707,30 @@ gosigs=list()
 
 topnumber=length(featureNames(eset.sig.norm))
 
-cat(noquote("GOstats: Creating Outfile: "))
-cat(noquote(paste('R-Output/GO_',analysisname,'_','top',topnumber,'-PATH-',auswertung,'-',normalisierung,'.txt\n', sep="")))
+outfile = paste(PATHoutp,"/",analysis,'/GO_',analysisname,'_','top',topnumber,'-PATH-',normalisierung,'.txt', sep="")
 
-
-outfile = paste('R-Output/GO_',analysisname,'_','top',topnumber,'-PATH-',normalisierung,'.txt', sep="")
-
-dir_log=c(dir_log, outfile)
-file_log=c(file_log,"GoStats Results")
+textlevel = leveltext("Creating output file","keep",textlevel)
 
 sink(outfile)
-writeLines(paste("","GOid","Type","Name","Pvalue","OddsRatio","ExpCount","Count","Size","GOGenesNumber","SigGenesNumber","SigGenesLinCorr","GOGenesSymbol","GOGenesEG","SigGenesSymbol","SigGenesEG",sep=";"), con=paste('R-Output/GO_',analysisname,'_','top',topnumber,'-PATH-',normalisierung,'.txt', sep=""))	
+writeLines(paste("","GOid","Type","Name","Pvalue","OddsRatio","ExpCount","Count","Size","GOGenesNumber","SigGenesNumber","SigGenesLinCorr","GOGenesSymbol","GOGenesEG","SigGenesSymbol","SigGenesEG",sep=";"), con=paste(PATHoutp,"/",analysis,'/GO_',analysisname,'_','top',topnumber,'-PATH-',normalisierung,'.txt', sep=""))	
 sink()
 
 
 for (id in 1:4){
-	cat(noquote(paste("GOstats: Using Over Data for: ",gos[id],"\n", sep="")))
-	cat(noquote("GOstats: Calculation\n"))
+	textlevel = leveltext(paste("Getting overrepresented groups for: ",gos[id], sep=""),"keep",textlevel)
+	textlevel = leveltext("Calculation","up",textlevel)
+
 	if (gos[id] != "KEGG"){
+
 		paramsGOunder <- new("GOHyperGParams", geneIds = geneCluster, universeGeneIds = geneUniverse, annotation = "hgu133plus2", ontology = gos[id], pvalueCutoff = 1, conditional = FALSE, testDirection = "under")
 		paramsGOover <- new("GOHyperGParams", geneIds = geneCluster, universeGeneIds = geneUniverse, annotation = "hgu133plus2", ontology = gos[id], pvalueCutoff = 1, conditional = FALSE, testDirection = "over")
 		tryCatch(hgOverGO <- hyperGTest(paramsGOover),error = function(e) {print('error GO')})
 		#tryCatch(hgUnderGO <- hyperGTest(paramsGOunder),error = function(e) {print('error GO')})
 		#htmlReport(hgUnderGO,file=paste('GOunder_',gos[id],'_top',topnumber,'-PATH-',auswertung,'-',normalisierung,'.html', sep=""))
 		#htmlReport(hgOverGO,file=paste('GOover_',gos[id],'_top',topnumber,'-PATH-',auswertung,'-',normalisierung,'.html', sep=""))
+
 	}else{
+
 		paramsGOunder <- new("KEGGHyperGParams", geneIds = geneCluster, universeGeneIds = geneUniverse, annotation = "hgu133plus2",pvalueCutoff = 1, testDirection = "under")
 		paramsGOover <- new("KEGGHyperGParams", geneIds = geneCluster, universeGeneIds = geneUniverse, annotation = "hgu133plus2",pvalueCutoff = 1, testDirection = "over")
 		tryCatch(hgOverGO <- hyperGTest(paramsGOover),error = function(e) {print('error KEGG')})
@@ -698,13 +738,16 @@ for (id in 1:4){
 		#htmlReport(hgOverKEGG,file=paste('KEGGover_top',topnumber,'-PATH-',auswertung,'-',normalisierung,'-',myfilter,'.html', sep=""))
 		#htmlReport(hgUnderKEGG,file=paste('KEGGunder_top',topnumber,'-PATH-',auswertung,'-',normalisierung,'-',myfilter,'.html', sep=""))
 	}
-	cat(noquote("GOstats: Summarizing\n"))
+	
+	textlevel = leveltext("Summarizing","keep",textlevel)
 	gosigs[[gos[id]]]=summary(hgOverGO)[summary(hgOverGO)$Pvalue<0.05,][[1]]
 	output = gos[id]
 
 	listofGOs = gosigs[[output]]
 
 if (length(listofGOs)>0){
+	textlevel = leveltext("Parsing","keep",textlevel)
+	textlevel = leveltext("","up",textlevel)
 
 for (i in 1:length(listofGOs)){ 
 	
@@ -715,11 +758,13 @@ if (gos[id] != "KEGG" & length(unlist(mget(listofGOs[i],hgu133plus2GO2PROBE  , i
 if(analyzeGO){
 genefunction=list();
 
-cat(noquote(paste("GOstats: Working on GO-Set: ",gos[id] ," - ", i, " (",length(listofGOs),") ", sep="")))
-cat(noquote("[1] Collecting Data"))
+	textlevel = leveltext(paste("GO-Set: ",gos[id] ," - ", i, " (",length(listofGOs),") ", sep=""),"keep",textlevel)
+
+#cat(noquote(paste("GOstats: Working on GO-Set: ",gos[id] ," - ", i, " (",length(listofGOs),") ", sep="")))
+#cat(noquote("[1] Collecting Data"))
 myinfo = summary(hgOverGO)[summary(hgOverGO)[,1]==listofGOs[i],]
 
-cat(noquote(" [2] Parsing Data"))
+#cat(noquote(" [2] Parsing Data"))
 genefunction$GOid					= myinfo[,1]	
 genefunction$Type					= names(myinfo)[1]	
 genefunction$Name 					= myinfo$Term
@@ -757,23 +802,28 @@ if(gos[id] != "KEGG"){
 	genefunction$SigGenesEG				= paste(unique(intersect(tmpGOGenesEG, geneCluster)), collapse=", ")	
 }
 
-cat(noquote(" [3] Writing Data\n"))
-cat(noquote(paste(c("",t(as.data.frame(genefunction))),collapse=";")),file=outfile, append=T, sep="\n")
+#cat(noquote(" [3] Writing Data\n"))
+#cat(noquote(paste(c("",t(as.data.frame(genefunction))),collapse=";")),file=outfile, append=T, sep="\n")
 
 }else{
-	cat(noquote(paste("GOstats: GO-Set excluded: ",gos[id] ," - ", i, " (",length(listofGOs),") \n", sep="")))
+	textlevel = leveltext(paste("GO-Set excluded: ",gos[id] ," - ", i, " (",length(listofGOs),")", sep=""),"keep",textlevel)
 }# end if (analyzeGO)
+if (devel_mode && i > 2) {break}
+
 }# end for length(listofGOs))
+textlevel = leveltext("","down",textlevel)
+
 }# end if (length(listofGOs)>0)
 
-cat(noquote(" Making Barplot\n"))
+textlevel = leveltext("Making Barplot","keep",textlevel)
+
 cat(noquote(paste(c("",t(as.data.frame(genefunction))),collapse=";")),file=outfile, append=T, sep="\n")
 
 sig.hgOverGO=summary(hgOverGO)[summary(hgOverGO)$Pvalue<0.1,]
 
 sig.hgOverGO =sig.hgOverGO[order(sig.hgOverGO$Pvalue, decreasing=T),]
 
-pdf(file=paste('R-Output/GO_',analysisname,'_',gos[id],'_top',topnumber,'-PATH-',normalisierung,'.pdf', sep=""), height=4+length(sig.hgOverGO$Count)/10,width=10)
+pdf(file=paste(PATHoutp,"/",analysis,'/SA-Plots/GO_',analysisname,'_',gos[id],'_top',topnumber,'-',normalisierung,'.pdf', sep=""), height=4+length(sig.hgOverGO$Count)/10,width=10)
  	par(mar=c(3,20,0.1,0.2))
 	barplot(rbind(sig.hgOverGO$ExpCount,sig.hgOverGO$Count), col=c("gray80","gray20"), beside=T, horiz=T, names.arg=paste(sig.hgOverGO$KEGGID,sig.hgOverGO$Term,"- p =", round(sig.hgOverGO$Pvalue, digits=4)), las=2, cex.names=0.5)
 
@@ -785,8 +835,63 @@ pdf(file=paste('R-Output/GO_',analysisname,'_',gos[id],'_top',topnumber,'-PATH-'
  	legend(-15,0,legend=c("Count", "Expected"), fill=c("gray20","gray80"))
 dev.off()
 
-
+textlevel = leveltext("","down",textlevel)
 }# end for MF/BP/CC/KEGG
 }# end function analyzeGOstats
+
+
+########################################################################################
+######## PATHWAY ANALYSIS ##############################################################
+########################################################################################
+
+textlevel = leveltext("Chi-Genes2Pathway function\n","keep",textlevel)
+chi_genes2Pathways<- function(name, tab){
+ 	tab2 = tab[1,]
+ 	tab2[1,] = c(rep("NA",length(tab2[1,])))
+	rownames(tab2) = "Start"
+
+textlevel = leveltext("Parsing","up",textlevel)
+for (i in 1:(length(tab$Path))){
+ #	print(i);
+ 	if (is.na(tab$Path[i]) | tab$Path[i]  == "NA"){
+ 		tab2 =rbind(tab2,tab[i,])
+ 	}else{
+ 		pathxways= gregexpr("[0-9]+", tab$Path[i])
+ 		for (j in 1:length(attr(pathxways[[1]],"match.length"))){
+ 			bla=substr(tab$Path[i],pathxways[[1]][j],pathxways[[1]][j]+attr(pathxways[[1]],"match.length")[j]-1)
+ 			tab2 =rbind(tab2,tab[i,])
+ 			tab2$Path[length(tab2$Path)]=paste(bla,"-",unlist(mget(bla, KEGGPATHID2NAME)))
+ 			}
+ 			
+ 	}#endelse
+ 	}#endif
+
+topnumber=length(tab[,1])
+
+textlevel = leveltext("Writing results to disk","keep",textlevel)
+write.table(tab2, file=paste(PATHoutp,"/",analysis,'/pwt_',name,'_top',topnumber,'-',normalisierung,'.txt', sep=""),sep=";")
+
+textlevel = leveltext("Plotting abundance diagram","keep",textlevel)
+tab3=table(tab2$Path[tab2$Path!="NA"])[order(table(tab2$Path[tab2$Path!="NA"]),decreasing = F)]
+pdf(file=paste(PATHoutp,"/",analysis,'/SA-Plots/PW_',name,'_top',topnumber,'-',normalisierung,'.pdf', sep=""), height=2+length(tab3[tab3>2])/10,width=10)
+ 	par(mar=c(3,20,0.1,0.2))
+ 	barplot(tab3[tab3>2], horiz=T, las=2, cex.names=0.75)
+ 	for (i in 1:(max(tab3)/5)){
+ 		abline(v=i*5, lty=3)
+ 	}
+dev.off()
+
+textlevel = leveltext("Plotting abundance diagram with only pathways > 10","keep",textlevel)
+tab3=table(tab2$Path[tab2$Path!="NA"])[order(table(tab2$Path[tab2$Path!="NA"]),decreasing = F)]
+pdf(file=paste(PATHoutp,"/",analysis,'/SA-Plots/PW_',name,'_top',topnumber,'-',normalisierung,'_10plus.pdf', sep=""), height=2+length(tab3[tab3>9])/10,width=10)
+ 	par(mar=c(3,20,0.1,0.2))
+ 	barplot(tab3[tab3>9], horiz=T, las=2, cex.names=0.75)
+ 	for (i in 1:(max(tab3)/5)){
+ 		abline(v=i*5, lty=3)
+ 	}
+dev.off()
+
+}
+
 
 

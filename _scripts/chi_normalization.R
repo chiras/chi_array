@@ -11,10 +11,7 @@
 auswertung 		= analysis
 normalisierung 	= normalization
 
-textlevel = leveltext("Loading Chip Annotation Data","up",textlevel)
-
-load(paste(PATHress,"/GenesetsU133plus2.RData",sep=""))												# Chip Annotation data
-
+textlevel = leveltext("","up",textlevel)
 
 if (use_norm){ 																			# when new normalization is used
 	

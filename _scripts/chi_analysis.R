@@ -41,11 +41,17 @@ for (i in 2:length(analysesList)){
 
 #### Multifaktorial Steps
 # Venn
-textlevel = leveltext("Plotting Venn Diagrams","keep",textlevel)
+textlevel = leveltext("Multifactorial overlap","keep",textlevel)
+textlevel = leveltext("Plotting Venn diagrams","up",textlevel)
 chi_venn(setlistPLUS,setlistMINUS)
 
+textlevel = leveltext("Writing overlaps to file\n","keep",textlevel)
+overlap = chi_overlap(setlistPLUS,setlistMINUS)
+write.list(overlap,filename=paste(PATHoutp,"/",analysis,"/overlap_probesets.txt",sep=""))
+
+
 # Heatmaps
-textlevel = leveltext("Plotting heatmaps","keep",textlevel)
+textlevel = leveltext("Plotting heatmaps","down",textlevel)
 textlevel = leveltext("Converting Genes to Probesets","up",textlevel)
 
 if (length(mygroups)>0){
@@ -112,6 +118,7 @@ heatmap.chi(heat.matrix, key=F, dendrogram="none", trace="none",col= rev(hmcol),
 dev.off()
     
 }
+textlevel = leveltext("Done with Heatmaps\n","keep",textlevel)
 
 
 #missing: SA !!!!
@@ -135,11 +142,14 @@ dev.off()
 ########################################################################################
 ######## GO ENRICHMENT #################################################################
 ########################################################################################
-
-textlevel = leveltext("GO/KEGG enrichment analysis","down",textlevel)
-#for (i in 2:length(analysesList)){
-#	chi_gostats (analysesList[[i]]$name, analysesList[[i]]$eset.sig,eset.norm)
-#}
+textlevel = leveltext("GO/KEGG enrichment analysis","keep",0)
+for (i in 2:length(analysesList)){
+	if (analysesList[[i]]$toDo$analyzeGOstats){
+		textlevel = leveltext(analysesList[[i]]$name,"up",textlevel)
+		chi_gostats (analysesList[[i]]$name, analysesList[[i]]$eset.sig,eset.norm)
+		textlevel = leveltext("","down",textlevel)
+	}
+}
 
 # 	##########################################################################################
 	# ######## HEATMAPS ######################################################################
@@ -149,3 +159,11 @@ textlevel = leveltext("GO/KEGG enrichment analysis","down",textlevel)
 	# ######## PATHWAYS ######################################################################
 	# ########################################################################################
 	
+textlevel = leveltext("Pathway analysis","keep",0)
+for (i in 2:length(analysesList)){
+	if (analysesList[[i]]$toDo$parseGenes2Pathways){
+		textlevel = leveltext(analysesList[[i]]$name,"up",textlevel)
+		chi_genes2Pathways (analysesList[[i]]$name, analysesList[[i]]$tab.hit)
+		textlevel = leveltext("","down",textlevel)
+	}
+}

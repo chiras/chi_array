@@ -19,3 +19,5 @@ _ressources/GenesetsU133plus2.RData
 data/*/
 output/*/
 parameters/*.R
+_scripts_old/
+_mactool/

@@ -1,9 +1,9 @@
 chi_array
 =========
 
-This script was created for special analysis, yet has been adapted over the last years to serve in very differnet questions with various features. It has become a growning bioinformatical pipeline to analyze microarray chip data.
+This script was created for a special purpose, yet has been adapted over the last years to serve in very different situtations with various datasets. The features are constantly accumulating; it has become a growing bioinformatical pipeline to analyze microarray chip data.
 
-Please be aware that it has been designed for specific purposes needed in our research area. It may or may not, but will likely yield errors, when used under different conditions as ours (see "How to use it").
+Please be aware that it has been designed for specific purposes needed in our research group. It may or may not work, but will likely yield errors, when used under different conditions as ours (see "How to use it").
 
 What it does:
 --------------
@@ -51,6 +51,10 @@ How to use it:
 (7) Call the script WITHIN R using source("PATH_TO_YOUR_PARAMETER_FILE") or by using the "load script" option in the GUI menu
 
 (8) Please acknowledge my work in resulting publications by mentioning the github ressource URL along with my author name "Alexander Keller" (e.g. as an electronic manual or online ressource).
+
+How to use it:
+--------------
+Tested on a couple of Macs
 
 --------------
 All scripts written by Alexander Keller, DNA Analytics Core Facility, Biocenter, University of Würzburg. a.keller@biozentrum.uni-wuerzburg.de

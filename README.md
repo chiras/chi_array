@@ -3,7 +3,15 @@ chi_array
 
 This script was created for special analysis, yet has been adapted over the last years to serve in very differnet questions with various features. It has become a growning bioinformatical pipeline to analyze microarray chip data.
 
-Please be aware that it has been designed for specific purposes needed in our research area. It may or may not, but will likely yield errors, when used under different conditions as ours.
+Please be aware that it has been designed for specific purposes needed in our research area. It may or may not, but will likely yield errors, when used under different conditions as ours (see "How to use it").
+
+What it does:
+--------------
+
+
+
+How to use it:
+--------------
 
 (1) Valid chip data: Affymetrix HGU133plus2.0 only. The script may work with other chips, provided that you adapt annotation data accordingly
 

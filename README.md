@@ -52,5 +52,5 @@ How to use it:
 
 (8) Please acknowledge my work in resulting publications by mentioning the github ressource URL along with my author name "Alexander Keller" (e.g. as an electronic manual or online ressource).
 
-=========
+--------------
 All scripts written by Alexander Keller, DNA Analytics Core Facility, Biocenter, University of Würzburg. a.keller@biozentrum.uni-wuerzburg.de

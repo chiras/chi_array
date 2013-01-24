@@ -1,3 +1,10 @@
+analysis 		= analysesList$general$name
+normalization 	= analysesList$general$normalization
+use_norm 		= analysesList$general$use_norm
+phenodataFile 	= analysesList$general$phenodataFile
+
+
+tmplog=append(tmplog,"Setting log files\n")
 logfile = paste(PATHoutp,"/",analysis,"/log_",analysis,".log",sep="")
 parfile = paste(PATHoutp,"/",analysis,"/log_",analysis,".par",sep="")
 if (!devel_mode){errfile = paste(PATHoutp,"/",analysis,"/log_",analysis,".err",sep="")}
@@ -12,7 +19,7 @@ leveltext <- function (text,levelchange="keep",currlevel){
 	}
 	return(currlevel)
 }
-tmplog=append(tmplog,"Setting log files")
+textlevel = 0
 
 
 time <- Sys.time()

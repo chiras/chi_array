@@ -1,7 +1,115 @@
 ########################################################################################
+######## Chi-expresso ###########################################################
+########################################################################################
+
+textlevel = leveltext("Chi-Expresso function","up",textlevel)
+chi_expresso <- function (afbatch, bg.correct = TRUE, bgcorrect.method = NULL, 
+    bgcorrect.param = list(), normalize = TRUE, normalize.method = NULL, 
+    normalize.param = list(), pmcorrect.method = NULL, pmcorrect.param = list(), 
+    summary.method = NULL, summary.param = list(), summary.subset = NULL, 
+    verbose = TRUE, widget = FALSE) 
+{
+	textlevel = leveltext("","up",textlevel)
+    setCorrections <- function() {
+        bioc.opt <- getOption("BioC")
+        if (bg.correct) {
+            if (is.null(bgcorrect.method)) {
+                BGMethods <- bgcorrect.methods()
+            }
+            else {
+                BGMethods <- bgcorrect.method
+            }
+        }
+        else {
+            BGMethods <- "None"
+        }
+        if (normalize) {
+            if (is.null(normalize.method)) {
+                normMethods <- normalize.methods(afbatch)
+            }
+            else {
+                normMethods <- normalize.method
+            }
+        }
+        else {
+            normMethods <- "None"
+        }
+        if (is.null(pmcorrect.method)) {
+            PMMethods <- pmcorrect.methods()
+        }
+        else {
+            PMMethods <- pmcorrect.method
+        }
+        if (is.null(summary.method)) {
+            expMethods <- generateExprSet.methods()
+        }
+        else {
+            expMethods <- summary.method
+        }
+        corrections <- expressoWidget(BGMethods, normMethods, 
+            PMMethods, expMethods, bioc.opt$affy$bgcorrect.method, 
+            bioc.opt$affy$normalize.method, bioc.opt$affy$pmcorrect.method, 
+            bioc.opt$affy$summary.method)
+        if (!is.null(corrections)) {
+            if (corrections[["BG"]] != "None") {
+                bgcorrect.method <<- corrections[["BG"]]
+            }
+            if (corrections[["NORM"]] != "None") {
+                normalize.method <<- corrections[["NORM"]]
+            }
+            if (corrections[["PM"]] != "None") {
+                pmcorrect.method <<- corrections[["PM"]]
+            }
+            if (corrections[["EXP"]] != "None") {
+                summary.method <<- corrections[["EXP"]]
+            }
+        }
+        else {
+            stop("Aborted by user")
+        }
+    }
+    if (widget) {
+        require(tkWidgets) || stop("library tkWidgets could not be found !")
+    }
+    nchips <- length(afbatch)
+    if (widget) {
+        setCorrections()
+    }
+    if (verbose) {
+		textlevel = leveltext(paste("PM/MM correction: ",pmcorrect.method,sep=""),"keep",textlevel)
+		textlevel = leveltext(paste("Expression values: ",summary.method,sep=""),"keep",textlevel)
+    }
+    if (bg.correct) {
+        if (verbose) 
+			textlevel = leveltext(paste("Background correction (",bgcorrect.method,") ...",sep=""),"keep",textlevel)
+        afbatch <- do.call(affy:::bg.correct, c(alist(afbatch, 
+            method = bgcorrect.method), bgcorrect.param))
+        if (verbose) 
+ 			textlevel = leveltext("done!","keep",textlevel)
+    }
+    if (normalize) {
+        if (verbose) 
+ 			textlevel = leveltext(paste("Normalization (",normalize.method,") ...",sep=""),"keep",textlevel)
+        afbatch <- do.call(affy:::normalize, c(alist(afbatch, 
+            normalize.method), normalize.param))
+        if (verbose) 
+ 			textlevel = leveltext("done!","keep",textlevel)
+    }
+   textlevel = leveltext("Processing (takes a while)","keep",textlevel)
+   eset <- computeExprSet(afbatch, summary.method = summary.method, 
+        pmcorrect.method = pmcorrect.method, ids = summary.subset, 
+        summary.param = summary.param, pmcorrect.param = pmcorrect.param, verbose=F)
+    return(eset)
+   textlevel = leveltext("done!","keep",textlevel)
+}
+
+
+
+
+########################################################################################
 ######## LIMMA ANALYSIS ################################################################
 ########################################################################################
-textlevel = leveltext("Chi-Limma function","up",textlevel)
+textlevel = leveltext("Chi-Limma function","keep",textlevel)
 chi_limma <- function(eset,design,contrast.matrix,name){
 textlevel = leveltext(paste("Limma Analysis (",name,")",sep=""),"up",textlevel)
 
@@ -844,7 +952,7 @@ textlevel = leveltext("","down",textlevel)
 ######## PATHWAY ANALYSIS ##############################################################
 ########################################################################################
 
-textlevel = leveltext("Chi-Genes2Pathway function\n","keep",textlevel)
+textlevel = leveltext("Chi-Genes2Pathway function","keep",textlevel)
 chi_genes2Pathways<- function(name, tab){
  	tab2 = tab[1,]
  	tab2[1,] = c(rep("NA",length(tab2[1,])))
@@ -893,5 +1001,9 @@ dev.off()
 
 }
 
+########################################################################################
+######## VENN premade script ###########################################################
+########################################################################################
 
-
+textlevel = leveltext("T. Girke Venn function\n","keep",textlevel)
+source(paste(PATHscpt,"/tgirke_venn.R",sep=""))

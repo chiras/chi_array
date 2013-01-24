@@ -107,10 +107,10 @@ for(z in 1:length(myprobes)){
 	row.names(heat.matrix) <- paste(tmp_lst[[1]]$Symbol," (",tmp_lst[[1]]$ID,")", sep="")
 	hmcol<-brewer.pal(11,"RdBu")
 
-  textlevel = leveltext(paste("Plotting Heatmaps (",nameplot,")", sep=""),"keep",textlevel)
+  textlevel = leveltext(paste("Plotting Heatmaps (",nameplot,") CURRENTLY DISABLED... too fix fast", sep=""),"keep",textlevel)
     
 pdf(file=paste(PATHoutp,"/",analysis,'/MFA-Plots/Heat_',nameplot,'.pdf', sep=""), height=2+length(tmp_lst[[1]]$ID)/5,width=(length(tmp_lst)+1)*2)
-heatmap.chi(heat.matrix, key=F, dendrogram="none", trace="none",col= rev(hmcol),   margins = c(12, 12), cellnote=round(heat.matrix, digits=3), notecol="black", Rowv=NA, Colv=NA, scale="none",
+#heatmap.chi(heat.matrix, key=F, dendrogram="none", trace="none",col= rev(hmcol),   margins = c(12, 12), cellnote=round(heat.matrix, digits=3), notecol="black", Rowv=NA, Colv=NA, scale="none",
  add.expr = abline(h = c(0.5,cumsum(rev(table(tmp_lst[[1]]$Symbol)))+0.5), v=c(0.5,1.5,5.5), lwd = 3), xlab= nameplot, cexRow = 1.05,
  #labCol = c(paste("Scale (",scalename,")",sep=""),complist$wisp1_msc$name,complist$wisp3_msc$name,complist$wisp1_cho$name ,complist$wisp3_cho$name),
  lmat=rbind( c(0,0,0),  c(0,1,0), c(0,0,0) ), lwid=c(0.005,0.99,0.005), lhei=c( 0.005,0.99, 0.005 ), keysize=0)

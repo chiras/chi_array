@@ -12,7 +12,7 @@ adv_log=c()
 
 
 
-textlevel = leveltext("(Checking Analysis Parameters) - Currently disabled!","keep",textlevel)
+textlevel = leveltext("(Checking Analysis Parameters) - Currently disabled!","up",textlevel)
 
 # checking whether all parameters have been correctly defined
 #continue = c();

@@ -1,3 +1,7 @@
+
+
+source(paste(PATHscpt,'/chi_logfiles.R', sep=""))
+
 textlevel = leveltext("Loading Libraries","keep",0)
 source(paste(PATHscpt,"/chi_libraries.R",sep=""))
 

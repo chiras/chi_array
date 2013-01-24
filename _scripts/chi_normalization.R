@@ -1,10 +1,3 @@
-##################################################################################################
-#todo: 
-#- Venn up & Down + AFFX cut + Filter
-#- heatmaps
-#- interaktion
-
-
 ########################################################################################
 ######## READ & SETTING ENVIRONMENT ####################################################
 ########################################################################################
@@ -33,19 +26,19 @@ if (use_norm){ 																			# when new normalization is used
 ######## QUALITY CONTROL ###############################################################
 ########################################################################################
 
-	if (qualityPlots){	
+	if (analysesList$general$qualityPlots){	
 
 	textlevel = leveltext("Quality Control","keep",textlevel)
 
 	# plot boxplots
 	textlevel = leveltext("Boxplots","up",textlevel)
-	pdf(file=paste(PATHoutp,"/",analysis,"/Q-Plots/box_nonorm.pdf", sep=""))
+	pdf(file=paste(PATHoutp,"/",analysis,"/Q-Plots/BOX_nonorm.pdf", sep=""))
 		boxplot(rawAffyData)
 	dev.off()
 
 	# plot densities
 	textlevel = leveltext("Density Plots","keep",textlevel)
-	pdf(file=paste(PATHoutp,"/",analysis,"/Q-Plots/dens_nonorm.pdf", sep=""))	
+	pdf(file=paste(PATHoutp,"/",analysis,"/Q-Plots/DENS_nonorm.pdf", sep=""))	
 	plot(density(log2(intensity(rawAffyData[, 1]))), col =0, main="Densities", ylim=c(0,1))
 	for(i in 1:dim(intensity(rawAffyData))[2])
 	{
@@ -54,17 +47,17 @@ if (use_norm){ 																			# when new normalization is used
 	dev.off()
 
 	textlevel = leveltext("MA Plots","keep",textlevel)
-	cat(noquote("Normalization: Quality Control: MA-Plots\n"))
 	pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/MA_nonorm%03d.pdf', sep=""), onefile=FALSE) 	
 	MAplot(rawAffyData)
 	dev.off()
 
 	# look at RNA degradation
 	textlevel = leveltext("RNA Degradation Plots","keep",textlevel)
-	pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/rna-deg_nonorm.pdf', sep=""))	
+	pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/RNAdeg_nonorm.pdf', sep=""))	
 	deg <- AffyRNAdeg(rawAffyData, log.it=FALSE)
 	plotAffyRNAdeg(deg)
 	dev.off()
+	textlevel = leveltext("","down",textlevel)
 
 	}
 
@@ -73,100 +66,93 @@ if (use_norm){ 																			# when new normalization is used
 ########################################################################################
 
 	# use expresso and summarization for normalization
-	textlevel = leveltext("Calculating","down",textlevel)
+	textlevel = leveltext("Calculating","keep",textlevel)
 
 	if (normalisierung == "quantiles"){
 		textlevel = leveltext("Quantiles","up",textlevel)
-		eset.norm <- expresso(rawAffyData, bg.correct=FALSE, normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
+		eset.norm <- chi_expresso(rawAffyData, bg.correct=FALSE, normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
 		write.exprs(eset.norm,file=paste(PATHdata,"/",analysis,'/eset_norm-',normalisierung,'.txt', sep=""))
 	}else if (normalisierung == "rma"){
-		textlevel = leveltext("RMA","up",textlevel)
-		eset.norm <- expresso(rawAffyData,bgcorrect.method="rma", normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
+		textlevel = leveltext("RMA background-corrected quantiles","up",textlevel)
+		eset.norm <- chi_expresso(rawAffyData,bgcorrect.method="rma", normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
 		write.exprs(eset.norm,file=paste(PATHdata,"/",analysis,'/eset_norm-',normalisierung,'.txt', sep=""))
 	}else if (normalisierung == "vsn"){
 		textlevel = leveltext("VSN (currently disabled)","up",textlevel)
-#		eset.norm <- expresso(rawAffyData, bg.correct=FALSE, normalize.method="vsn", pmcorrect.method="pmonly", summary.method="medianpolish")
+		stop("Please choose a different normalization method")
+#		eset.norm <- chi_expresso(rawAffyData, bg.correct=FALSE, normalize.method="vsn", pmcorrect.method="pmonly", summary.method="medianpolish")
 #		write.exprs(eset.norm,file=paste(PATHdata,"/",analysis,'/eset_norm-',normalisierung,'.txt', sep=""))
 	}else{
-		textlevel = leveltext(" Quantiles/RMA/VSN (VSN currently disabled)","up",textlevel)
-		eset.quantiles <- expresso(rawAffyData, bg.correct=FALSE, normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
-		eset.rma <- expresso(rawAffyData,bgcorrect.method="rma", normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
-#		eset.vsn <- expresso(rawAffyData, bg.correct=FALSE, normalize.method="vsn", pmcorrect.method="pmonly", summary.method="medianpolish")
+		textlevel = leveltext("Quantiles","up",textlevel)
+		eset.quantiles <- chi_expresso(rawAffyData, bg.correct=FALSE, normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
+		textlevel = leveltext("","down",textlevel)
 
-		# look at normalise data
-		textlevel = leveltext("Normalized boxplots","keep",textlevel)
-
-		par(mfrow=c(1,3))
-		pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/box_norm%03d.pdf', sep=""), onefile=FALSE) 	
-			boxplot(data.frame(exprs(eset.rma)))
-			boxplot(data.frame(exprs(eset.quantiles)))
-	#		boxplot(data.frame(exprs(eset.vsn)))
-		dev.off()
-
-		# look at density plots
-		textlevel = leveltext("Normalized Density Plots","keep",textlevel)
-		pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/dens_norm%03d.pdf', sep=""), onefile=FALSE) 	
-		plot(density(log2(exprs(eset.rma[, 1]))), col=0, main="RMA")
-		for(i in 1:dim(exprs(eset.rma))[2])
-		{
-			lines(density(log2(exprs(eset.rma[,i]))), col=i)
-
-		}
-
-		plot(density(log2(exprs(eset.quantiles[, 1]))), col=0, main="Quantiles")
-		for(i in 1:dim(exprs(eset.quantiles))[2])
-		{
-			lines(density(log2(exprs(eset.quantiles[,i]))), col=i)
-		}
-
-	#	plot(density(log2(exprs(eset.vsn[, 1]))), col =0, main="VSN")
-	#	for(i in 1:dim(exprs(eset.vsn))[2])
-	#	{
-	#		lines(density(log2(exprs(eset.vsn[,i]))), col = i)
-	#	}
-		dev.off()
-
-		#write.exprs(eset.vsn,file=paste('R-Output/eset_norm-vsn.txt', sep=""))
+		textlevel = leveltext("RMA background-corrected quantiles","up",textlevel)
+		eset.rma <- chi_expresso(rawAffyData,bgcorrect.method="rma", normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
+		textlevel = leveltext("","down",textlevel)
+		
+		textlevel = leveltext("VSN currently disabled!","up",textlevel)
+#		eset.vsn <- chi_expresso(rawAffyData, bg.correct=FALSE, normalize.method="vsn", pmcorrect.method="pmonly", summary.method="medianpolish")
+		textlevel = leveltext("","down",textlevel)
 
 		textlevel = leveltext("Writing normalized data","down",textlevel)
 		write.exprs(eset.quantiles,file=paste(PATHdata,"/",analysis,'/eset_norm-quantiles.txt', sep=""))
 		write.exprs(eset.rma,file=paste(PATHdata,"/",analysis,'/eset_norm-rma.txt', sep=""))
+#		write.exprs(eset.vsn,file=paste(PATHdata,"/",analysis,'/eset_norm-vsn.txt', sep=""))
 
 		textlevel = leveltext("No norm method specified, using RMA. Alternatives are saved to disk","keep",textlevel)
 		eset.norm=eset.rma
 	}
 
-	if (qualityPlots){	
-	textlevel = leveltext("Quality Control after Normalization","keep",textlevel)
+	if (analysesList$general$qualityPlots){	
+		textlevel = leveltext("Quality control plots after Normalization","keep",textlevel)
 
-	# plot boxplots
-	textlevel = leveltext("Boxplots","up",textlevel)
-
-	pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/box_norm.pdf', sep=""))
-		boxplot(data.frame(exprs(eset.norm)))
-	dev.off()
-
-	# plot densities
-	textlevel = leveltext("Density Plots","keep",textlevel)
-	pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/dens_norm.pdf', sep=""))	
-		plot(density(log2(exprs(eset.norm[, 1]))), col=0, main="Normalization")
-		for(i in 1:dim(exprs(eset.norm))[2])
-		{
-			lines(density(log2(exprs(eset.norm[,i]))), col=i)
-
+		if (normalisierung == "quantiles" | normalisierung == ""){
+			pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/BOX_quantiles.pdf', sep=""))
+			boxplot(data.frame(exprs(eset.quantiles)))
+			dev.off()
+			pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/DENS_quantiles.pdf', sep=""))	
+				plot(density(log2(exprs(eset.quantiles[, 1]))), col=0, main="Quantiles Normalization")
+				for(i in 1:dim(exprs(eset.quantiles))[2])
+					{
+					lines(density(log2(exprs(eset.quantiles[,i]))), col=i)
+					}
+			dev.off()
 		}
-	dev.off()
+		
+		if (normalisierung == "rma" | normalisierung == ""){
+			pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/BOX_rma.pdf', sep=""))
+			boxplot(data.frame(exprs(eset.rma)))
+			dev.off()
+			pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/DENS_rma.pdf', sep=""))	
+				plot(density(log2(exprs(eset.rma[, 1]))), col=0, main="Quantiles Normalization")
+				for(i in 1:dim(exprs(eset.rma))[2])
+					{
+					lines(density(log2(exprs(eset.rma[,i]))), col=i)
+					}
+			dev.off()
+		}
+		
+	#	if ((normalisierung == "vsn" || (normalisierung == ""))){
+	#		pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/BOX_vsn.pdf', sep=""))
+	#		boxplot(data.frame(exprs(eset.vsn)))
+	#		dev.off()
+	#		pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/DENS_rma.pdf', sep=""))	
+	#			plot(density(log2(exprs(eset.vsn[, 1]))), col=0, main="Quantiles Normalization")
+	#			for(i in 1:dim(exprs(eset.vsn))[2])
+	#				{
+	#				lines(density(log2(exprs(eset.vsn[,i]))), col=i)
+	#				}
+	#		dev.off()
+	#	}
+
 	}
-	textlevel = leveltext("","down",textlevel)
-	textlevel = leveltext("","down",textlevel)
 
 }else{
 	textlevel = leveltext("Reading pre-normalized data from file","keep",textlevel)
-
 	eset.norm=readExpressionSet(paste('eset_norm-',auswertung,'-',normalisierung,'.txt', sep="")) # reading already normalized data
 }
 
-	textlevel = leveltext("(Checking Subsets) - Currently disabled!","keep",textlevel)
+	textlevel = leveltext("(Checking Subsets) - Currently disabled!","keep",1)
 
 #if (length(use_subset)==length(sampleNames(eset.norm))){
 	

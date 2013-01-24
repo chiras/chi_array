@@ -3,6 +3,7 @@
 ########################################################################################
 
 textlevel = leveltext("Checking R packages","up",textlevel)
+
 if (sum(installed.packages()[,1]=="DBI")==0) {install.packages("DBI", dependencies = TRUE, quiet = TRUE)}
 if (sum(installed.packages()[,1]=="RSQLite")==0) {install.packages("RSQLite", dependencies = TRUE, quiet = TRUE)}
 if (sum(installed.packages()[,1]=="xtable")==0) {install.packages("xtable", dependencies = TRUE, quiet = TRUE)}
@@ -67,9 +68,7 @@ library(RColorBrewer)
 library(grid)
 #library(fUtilities)
 
-source(paste(PATHscpt,"/tgirke_venn.R",sep=""))
-
-textlevel = leveltext("Loading Chip Annotation Data","keep",textlevel)
+textlevel = leveltext("Loading chip annotation data","keep",textlevel)
 load(paste(PATHress,"/GenesetsU133plus2.RData",sep=""))												# Chip Annotation data
 
 

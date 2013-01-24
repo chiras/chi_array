@@ -42,13 +42,13 @@ How to use it:
 
 (3) valid folder structure: maintain the folders and files as downloaded
 
-(4) use the Parameters.R.template file in ./Parameters, remove the .template extension and edit the Parameters according to your needs.
+(4) use the Parameters.R.template file in ./Parameters: rename according to your analysis, remove the .template extension and edit the Parameters inside according to your needs.
 
 (5) Store your .CEL files in the folder ./data within a subfolder named according to the setting "analysesList$general$name" in the parameter file.
 
 (6) Be sure to have a working internet connection to able to download needed libraries
 
-(7) Call the script WITHIN R using source("PATH_TO_YOUR_PARAMETER_FILE") or by using the "load script" option in the GUI menu
+(7) Call the script WITHIN R using 'source("PATH_TO_YOUR_PARAMETER_FILE.R")' or by using the "load script" option in the GUI menu
 
 (8) Please acknowledge my work in resulting publications by mentioning the github ressource URL along with my author name "Alexander Keller" (e.g. as an electronic manual or online ressource).
 

@@ -42,15 +42,19 @@ How to use it:
 
 (3) valid folder structure: maintain the folders and files as downloaded
 
-(4) use the Parameters.R.template file in ./Parameters: rename according to your analysis, remove the .template extension and edit the Parameters inside according to your needs.
+(4) Download the Gene setes U133plus2 .Rdata file at http://compbio.med.harvard.edu/Supplements/PNAS05.html
 
-(5) Store your .CEL files in the folder ./data within a subfolder named according to the setting "analysesList$general$name" in the parameter file.
+(5) use the template.R file in ./Parameters: rename according to your analysis and edit the Parameters inside according to your needs.
 
-(6) Be sure to have a working internet connection to able to download needed libraries
+(6) Store your .CEL files in the folder ./data within a subfolder named according to the setting "analysesList$general$name" in the parameter file.
 
-(7) Call the script WITHIN R using 'source("PATH_TO_YOUR_PARAMETER_FILE.R")' or by using the "load script" option in the GUI menu
+(7) Be sure to have a working internet connection to able to download needed libraries
 
-(8) Please acknowledge my work in resulting publications by mentioning the github ressource URL along with my author name "Alexander Keller" (e.g. as an electronic manual or online ressource).
+(8) Call the script WITHIN R using 'source("PATH_TO_YOUR_PARAMETER_FILE.R")' or by using the "load script" option in the GUI menu
+
+(9) Please acknowledge my and others work by reading the CONTRIB.txt and citing the relevant articles.
+
+Mac only option: you may simply drag and drop your parameter.R file onto the Mac-Tool and it will start your analysis and check for script-updates at the git-repos.
 
 Tested on:
 --------------

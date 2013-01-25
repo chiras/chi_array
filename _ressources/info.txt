@@ -1,4 +1,4 @@
 # This folder is dedicated to ressources as annotation data etc. 
 # usually you will need within this folder
 
-GenesetsU133plus2.RData
+GenesetsU133plus2.RData # can be obtained from: http://compbio.med.harvard.edu/Supplements/PNAS05.html

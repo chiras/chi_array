@@ -31,7 +31,7 @@ How to use it:
 1. Valid chip data: Affymetrix HGU133plus2.0 only. The script may work with other chips, provided that you adapt annotation data accordingly
 
 2. Testing design: 
-    2.1. Single analysis: 
+	2.1. Single analysis: 
 
     SampleA vs. SampleB
     -> Differential gene expression analysis

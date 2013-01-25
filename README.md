@@ -33,7 +33,9 @@ How to use it:
 2. Testing design: 
 	* Single analysis: 
 	
-	* Multiple analysis:
+	* SampleA vs. SampleB
+	-> Differential gene expression analysis
+	Example: KnockDown Cells vs. Control Cells
 	
 	(SampleA vs. SampleB) vs. (SampleC vs. SampleD)
 	

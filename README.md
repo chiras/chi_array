@@ -32,7 +32,7 @@ How to use it:
 
 2. Testing design: 
 
-    Single analysis: SampleA vs. SampleB
+	Single analysis: SampleA vs. SampleB
     -> Differential gene expression analysis
     Example: KnockDown Cells vs. Control Cells
 

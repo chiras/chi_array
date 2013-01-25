@@ -56,5 +56,9 @@ Tested on:
 --------------
 so far only on a couple of Macs
 
+To do:
 --------------
-All scripts written by Alexander Keller, DNA Analytics Core Facility, Biocenter, University of Würzburg. a.keller@biozentrum.uni-wuerzburg.de
+many things, soon coming: input parameter checking and providing test data
+
+--------------
+All scripts written by Alexander Keller, DNA Analytics Core Facility, Biocenter, University of Würzburg

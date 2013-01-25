@@ -1,0 +1,78 @@
+################################################################################
+# Contributions to the chi-array analysis pipeline:
+################################################################################
+
+*****
+* CITATION:
+
+As there will be no separate methodological pipeline paper, please cite the biological study when using this script for your analyses. The article is currently under review, I will add the missing information as soon as possible. Please also consider citing R/Bioconductor and the necessary libraries below.
+
+- Schlegelmilch K, A Keller, V Zehe, S Hondke, L Klein-Hitpass, N Schütze (in review) Identification of WISP1 as an important survival factor in human mesenchymal stem cells
+
+
+*****
+* SCRIPT:
+
+- Dr. Alexander Keller, DNA Analytics Core Facility, University of Würzburg
+
+*****
+* CONCEPTION & TESTING DATA
+
+- Dr. Alexander Keller, DNA Analytics Core Facility, University of Würzburg
+- Dr. Katrin Schlegelmilch, Orthopedic Center, University of Würzburg
+
+*****
+* R & BIOCONDUCTOR
+
+- R Development Core Team (2008). R: A language and environment for statistical computing. R Foundation for Statistical Computing,  Vienna, Austria. ISBN 3-900051-07-0, URL http://www.R-project.org.
+
+- Bioconductor: Open software development for computational biology and bioinformatics R. Gentleman, V. J. Carey, D.  M. Bates, B.Bolstad, M. Dettling, S. Dudoit, B. Ellis, L. Gautier, Y. Ge, and others 2004, Genome Biology, Vol. 5,  R80
+
+*****
+* PACKAGES & LIBRARIES:
+
+- Thomas Girke (2012) Intersect and Venn Diagram Functions http://faculty.ucr.edu/~tgirke/Documents/R_BioCond/R_BioCondManual.html#R_graphics_venn
+
+- R Special Interest Group on Databases (2009). DBI: R Database Interface. R package version 0.2-5.  http://CRAN.R-project.org/package=DBI
+
+- David A. James and Seth Falcon (2012). RSQLite: SQLite interface for R. R package version 0.11.2.  http://CRAN.R-project.org/package=RSQLite
+
+- David B. Dahl (2012). xtable: Export tables to LaTeX or HTML. R package version 1.7-0.  http://CRAN.R-project.org/package=xtable
+
+- Duncan Temple Lang (2012). XML: Tools for parsing and generating XML within R and S-Plus. R package version  3.95-0.1. http://CRAN.R-project.org/package=XML
+
+- Gautier, L., Cope, L., Bolstad, B. M., and Irizarry, R. A. 2004. affy---analysis of Affymetrix GeneChip data at the  probe level. Bioinformatics 20, 3 (Feb. 2004), 307-315.
+
+- Wolfgang Huber, Anja von Heydebreck, Holger Sueltmann, Annemarie Poustka and Martin Vingron. Variance Stabilization Applied to Microarray Data Calibration and to the Quantification of Differential Expression. Bioinformatics 18,  S96-S104 (2002).
+
+- R. Gentleman, V. Carey, W. Huber and F. Hahne (). genefilter: genefilter: methods for filtering genes from  microarray experiments. R package version 1.38.0.
+
+- Katherine S. Pollard, Houston N. Gilbert, Yongchao Ge, Sandra Taylor and Sandrine Dudoit (). multtest:  Resampling-based multiple hypothesis testing. R package version 2.12.0.
+
+- Weil Lai, Lu Tian and Peter Park (2008). sigPathway: Pathway Analysis. R package version 1.24.0.  http://www.pnas.org/cgi/doi/10.1073/pnas.0506577102, http://www.chip.org/~ppark/Supplements/PNAS05.html
+
+- Bolstad, BM (2004) Low Level Analysis of High-density Oligonucleotide Array Data: Background, Normalization and  Summarization. Dissertation. University of California, Berkeley.
+
+- Marc Carlson, Seth Falcon, Herve Pages and Nianhua Li (). hgu133plus2.db: Affymetrix Human Genome U133 Plus 2.0  Array annotation data (chip hgu133plus2). R package version 2.7.1.
+
+- Marc Carlson, Seth Falcon, Herve Pages and Nianhua Li (). KEGG.db: A set of annotation maps for KEGG. R package  version 2.7.1.
+
+- Smyth, G. K. (2005). Limma: linear models for microarray data. In: 'Bioinformatics and Computational Biology  Solutions using R and Bioconductor'. R. Gentleman, V. Carey, S. Dudoit, R. Irizarry, W. Huber (eds), Springer, New  York, pages 397--420.
+
+- R. Gentleman (). annotate: Annotation for microarrays. R package version 1.34.1.- Vince Carey, Li Long and R. Gentleman (). RBGL: An interface to the BOOST graph library. R package version 1.32.1.  http://www.bioconductor.org
+
+- S Falcon and R Gentleman. Using GOstats to test gene lists for GO term association. Bioinformatics, 23(2):257-8,  2007.
+
+- Gordon Smyth, James Wettenhall, Yee Hwa and Martin MorganMartin Morgan (). convert: Convert Microarray Data Objects.  R package version 1.32.0. http://bioinf.wehi.edu.au/limma/convert.html
+
+- Jitao David Zhang and Stefan Wiemann (2009) KEGGgraph: a graph approach to KEGG PATHWAY in R and  Bioconductor. Bioinformatics, 25(11):1470--1471
+
+- Herve Pages, Marc Carlson, Seth Falcon and Nianhua Li (). AnnotationDbi: Annotation Database Interface. R package  version 1.18.4.
+
+- Gregory R. Warnes. Includes R source code and/or documentation contributed by: Ben Bolker, Lodewijk Bonebakker,  Robert Gentleman, Wolfgang Huber Andy Liaw, Thomas Lumley, Martin Maechler, Arni Magnusson, Steffen Moeller, Marc Schwartz and Bill Venables (2012). gplots: Various R programming tools for plotting data. R package version 2.11.0.  http://CRAN.R-project.org/package=gplots
+
+- Jeff Gentry, Li Long, Robert Gentleman, Seth, Florian Hahne, Deepayan Sarkar and Kasper Hansen (). Rgraphviz:  Provides plotting capabilities for R graph objects. R package version 1.34.2
+
+- Adi Laurentiu Tarca, Purvesh Kathri and Sorin Draghici (2011). SPIA: Signaling Pathway Impact Analysis (SPIA) using  combined evidence of pathway over-representation and unusual signaling perturbations. R package version 2.6.0.  http://bioinformatics.oxfordjournals.org/cgi/reprint/btn577v1
+
+- Erich Neuwirth (2011). RColorBrewer: ColorBrewer palettes. R package version 1.0-5.  http://CRAN.R-project.org/package=RColorBrewer

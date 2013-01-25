@@ -106,7 +106,7 @@ if (use_norm){ 																			# when new normalization is used
 	if (analysesList$general$qualityPlots){	
 		textlevel = leveltext("Quality control plots after Normalization","keep",textlevel)
 
-		if (normalisierung == "quantiles" | normalisierung == ""){
+		if ((normalisierung == "quantiles") | (normalisierung == "")){
 			pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/BOX_quantiles.pdf', sep=""))
 			boxplot(data.frame(exprs(eset.quantiles)))
 			dev.off()
@@ -119,7 +119,7 @@ if (use_norm){ 																			# when new normalization is used
 			dev.off()
 		}
 		
-		if (normalisierung == "rma" | normalisierung == ""){
+		if (normalisierung == "rma" | normalisierung == ""){
 			pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/BOX_rma.pdf', sep=""))
 			boxplot(data.frame(exprs(eset.rma)))
 			dev.off()
@@ -132,7 +132,7 @@ if (use_norm){ 																			# when new normalization is used
 			dev.off()
 		}
 		
-	#	if ((normalisierung == "vsn" || (normalisierung == ""))){
+	#	if ((normalisierung == "vsn" || (normalisierung == ""))){
 	#		pdf(file=paste(PATHoutp,"/",analysis,'/Q-Plots/BOX_vsn.pdf', sep=""))
 	#		boxplot(data.frame(exprs(eset.vsn)))
 	#		dev.off()

@@ -16,7 +16,6 @@ source("http://bioconductor.org/biocLite.R")
 textlevel = leveltext("Checking Bioconductor packages","keep",textlevel)
 #biocLite (pkgs=c("DBI","affy","vsn","genefilter","multtest","sigPathway","affyPLM","hgu133plus2.db","KEGG.db","limma","hgu133plus2.db","annotate","RBGL","GOstats","convert","KEGGgraph", "AnnotationDbi","gplots","RSQLite","xtable","XML","SPIA","RColorBrewer","RBGL","grid","fUtilities"),ask=F, quiet = TRUE)
 
-if (sum(installed.packages()[,1]=="DBI")==0) {biocLite("DBI", ask=F, quiet = TRUE)}
 if (sum(installed.packages()[,1]=="affy")==0) {biocLite("affy")}
 if (sum(installed.packages()[,1]=="vsn")==0) {biocLite("vsn")}
 if (sum(installed.packages()[,1]=="genefilter")==0) {biocLite("genefilter")}
@@ -26,7 +25,6 @@ if (sum(installed.packages()[,1]=="affyPLM")==0) {biocLite("affyPLM")}
 if (sum(installed.packages()[,1]=="hgu133plus2.db")==0) {biocLite("hgu133plus2.db")}
 if (sum(installed.packages()[,1]=="KEGG.db")==0) {biocLite("KEGG.db")}
 if (sum(installed.packages()[,1]=="limma")==0) {biocLite("limma")}
-if (sum(installed.packages()[,1]=="hgu133plus2.db")==0) {biocLite("hgu133plus2.db")}
 if (sum(installed.packages()[,1]=="annotate")==0) {biocLite("annotate")}
 if (sum(installed.packages()[,1]=="RBGL")==0) {biocLite("RBGL")}
 if (sum(installed.packages()[,1]=="GOstats")==0) {biocLite("GOstats")}
@@ -38,7 +36,6 @@ if (sum(installed.packages()[,1]=="Rgraphviz")==0) {biocLite("Rgraphviz")}
 if (sum(installed.packages()[,1]=="Rgraphviz")==0) {stop("Please make sure you also install Graphviz and rerun this script afterwards. \n Check http://www.graphviz.org/\n\n***Script Aborted***")}
 if (sum(installed.packages()[,1]=="SPIA")==0) {biocLite("SPIA")}
 if (sum(installed.packages()[,1]=="RColorBrewer")==0) {biocLite("RColorBrewer")}
-if (sum(installed.packages()[,1]=="RBGL")==0) {biocLite("RBGL")}
 if (sum(installed.packages()[,1]=="grid")==0) {biocLite("grid")}
 #if (sum(installed.packages()[,1]=="fUtilities")==0) {biocLite("fUtilities")}
 

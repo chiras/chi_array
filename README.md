@@ -32,16 +32,14 @@ How to use it:
 
 2. Testing design: 
   * Single analysis:
-	
-    SampleA vs. SampleB
-    -> Differential gene expression analysis
-    Example: KnockDown Cells vs. Control Cells  
+   SampleA vs. SampleB  
+   -> Differential gene expression analysis  
+   Example: KnockDown Cells vs. Control Cells  
  	
   * Multiple analysis:
-
-    (SampleA vs. SampleB) vs. (SampleC vs. SampleD)
-    -> Comparison between differential expressions
-    Example: KO/Control-differential expression in Chondrocytes vs. KO/Control-differential expression in Stem Cells
+   (SampleA vs. SampleB) vs. (SampleC vs. SampleD)  
+   -> Comparison between differential expressions  
+   Example: KO/Control-differential expression in Chondrocytes vs. KO/Control-differential expression in Stem Cells
 		
 3. Valid folder structure: maintain the folders and files as downloaded
 

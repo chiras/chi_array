@@ -18,7 +18,10 @@ _ressources/GenesetsU133plus2.RData
 ## we neither want to share data nor our parameters for the analyses
 data/*/
 output/*/
-parameters/*.R
 _scripts_old/
-_mactool/
+parameters/*.R
+
+#but we want the template.R
+!parameters/template.R
+
 

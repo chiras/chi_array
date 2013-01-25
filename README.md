@@ -31,34 +31,18 @@ How to use it:
 1. Valid chip data: Affymetrix HGU133plus2.0 only. The script may work with other chips, provided that you adapt annotation data accordingly
 
 2. Testing design: 
-	* Single analysis:
+  * Single analysis:
 	
-	 SampleA vs. SampleB
-	-> Differential gene expression analysis
-	Example: KnockDown Cells vs. Control Cells  
-*	
-	* Multiple analysis:
+    SampleA vs. SampleB
+    -> Differential gene expression analysis
+    Example: KnockDown Cells vs. Control Cells  
+ 	
+  * Multiple analysis:
 
-	 (SampleA vs. SampleB) vs. (SampleC vs. SampleD)
-	-> Comparison between differential expressions
-	Example: KO/Control-differential expression in Chondrocytes vs. KO/Control-differential expression in Stem Cells
+    (SampleA vs. SampleB) vs. (SampleC vs. SampleD)
+    -> Comparison between differential expressions
+    Example: KO/Control-differential expression in Chondrocytes vs. KO/Control-differential expression in Stem Cells
 		
-	
-	SampleA vs. SampleB
-	
-	-> Differential gene expression analysis
-	
-	Example: KnockDown Cells vs. Control Cells
-
-
-	* Multiple analysis:
-	
-	(SampleA vs. SampleB) vs. (SampleC vs. SampleD)
-	
-	-> Comparison between differential expressions
-	
-	Example: KO/Control-differential expression in Chondrocytes vs. KO/Control-differential expression in Stem Cells
-
 3. Valid folder structure: maintain the folders and files as downloaded
 
 4. Download the Gene sets U133plus2 .Rdata file at http://compbio.med.harvard.edu/Supplements/PNAS05.html
@@ -70,8 +54,7 @@ How to use it:
 7. Be sure to have a working internet connection to able to download needed libraries
 
 8. Call the script WITHIN R using 'source("PATH_TO_YOUR_PARAMETER_FILE.R")' or by using the "load script" option in the GUI menu
-	* Mac only option: you may simply drag and drop your parameter.R file onto the Mac-Tool. It will start your analysis and check for script-updates at the git-repos.
-	*
+  * Mac only option: you may simply drag and drop your parameter.R file onto the Mac-Tool. It will start your analysis and check for script-updates at the git-repos.
 9. Please acknowledge my and others work by reading the CONTRIB.txt and citing the relevant articles.
 
 

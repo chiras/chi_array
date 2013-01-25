@@ -42,7 +42,7 @@ How to use it:
 
 (3) valid folder structure: maintain the folders and files as downloaded
 
-(4) Download the Gene setes U133plus2 .Rdata file at http://compbio.med.harvard.edu/Supplements/PNAS05.html
+(4) Download the Gene sets U133plus2 .Rdata file at http://compbio.med.harvard.edu/Supplements/PNAS05.html
 
 (5) use the template.R file in ./Parameters: rename according to your analysis and edit the Parameters inside according to your needs.
 
@@ -51,10 +51,10 @@ How to use it:
 (7) Be sure to have a working internet connection to able to download needed libraries
 
 (8) Call the script WITHIN R using 'source("PATH_TO_YOUR_PARAMETER_FILE.R")' or by using the "load script" option in the GUI menu
+	Mac only option: you may simply drag and drop your parameter.R file onto the Mac-Tool and it will start your analysis and check for script-updates at the git-repos.
 
 (9) Please acknowledge my and others work by reading the CONTRIB.txt and citing the relevant articles.
 
-Mac only option: you may simply drag and drop your parameter.R file onto the Mac-Tool and it will start your analysis and check for script-updates at the git-repos.
 
 Tested on:
 --------------

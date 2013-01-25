@@ -70,17 +70,17 @@ if (use_norm){ 																			# when new normalization is used
 
 	if (normalisierung == "quantiles"){
 		textlevel = leveltext("Quantiles","up",textlevel)
-		eset.norm <- chi_expresso(rawAffyData, bg.correct=FALSE, normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
-		write.exprs(eset.norm,file=paste(PATHdata,"/",analysis,'/eset_norm-',normalisierung,'.txt', sep=""))
+		eset.quantiles <- chi_expresso(rawAffyData, bg.correct=FALSE, normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
+		write.exprs(eset.quantiles,file=paste(PATHdata,"/",analysis,'/eset_norm-',normalisierung,'.txt', sep=""))
 	}else if (normalisierung == "rma"){
 		textlevel = leveltext("RMA background-corrected quantiles","up",textlevel)
-		eset.norm <- chi_expresso(rawAffyData,bgcorrect.method="rma", normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
-		write.exprs(eset.norm,file=paste(PATHdata,"/",analysis,'/eset_norm-',normalisierung,'.txt', sep=""))
+		eset.rma <- chi_expresso(rawAffyData,bgcorrect.method="rma", normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
+		write.exprs(eset.rma,file=paste(PATHdata,"/",analysis,'/eset_norm-',normalisierung,'.txt', sep=""))
 	}else if (normalisierung == "vsn"){
 		textlevel = leveltext("VSN (currently disabled)","up",textlevel)
 		stop("Please choose a different normalization method")
-#		eset.norm <- chi_expresso(rawAffyData, bg.correct=FALSE, normalize.method="vsn", pmcorrect.method="pmonly", summary.method="medianpolish")
-#		write.exprs(eset.norm,file=paste(PATHdata,"/",analysis,'/eset_norm-',normalisierung,'.txt', sep=""))
+#		eset.vsn <- chi_expresso(rawAffyData, bg.correct=FALSE, normalize.method="vsn", pmcorrect.method="pmonly", summary.method="medianpolish")
+#		write.exprs(eset.vsn,file=paste(PATHdata,"/",analysis,'/eset_norm-',normalisierung,'.txt', sep=""))
 	}else{
 		textlevel = leveltext("Quantiles","up",textlevel)
 		eset.quantiles <- chi_expresso(rawAffyData, bg.correct=FALSE, normalize.method="quantiles", pmcorrect.method="pmonly", summary.method="medianpolish")
@@ -99,8 +99,6 @@ if (use_norm){ 																			# when new normalization is used
 		write.exprs(eset.rma,file=paste(PATHdata,"/",analysis,'/eset_norm-rma.txt', sep=""))
 #		write.exprs(eset.vsn,file=paste(PATHdata,"/",analysis,'/eset_norm-vsn.txt', sep=""))
 
-		textlevel = leveltext("No norm method specified, using RMA. Alternatives are saved to disk","keep",textlevel)
-		eset.norm=eset.rma
 	}
 
 	if (analysesList$general$qualityPlots){	
@@ -146,6 +144,9 @@ if (use_norm){ 																			# when new normalization is used
 	#	}
 
 	}
+
+	textlevel = leveltext("No norm method specified, using RMA corrected quantiles. Alternatives are saved to disk","keep",textlevel)
+	eset.norm=eset.rma
 
 }else{
 	textlevel = leveltext("Reading pre-normalized data from file","keep",textlevel)

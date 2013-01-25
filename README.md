@@ -51,6 +51,7 @@ How to use it:
 (7) Be sure to have a working internet connection to able to download needed libraries
 
 (8) Call the script WITHIN R using 'source("PATH_TO_YOUR_PARAMETER_FILE.R")' or by using the "load script" option in the GUI menu
+
 	Mac only option: you may simply drag and drop your parameter.R file onto the Mac-Tool and it will start your analysis and check for script-updates at the git-repos.
 
 (9) Please acknowledge my and others work by reading the CONTRIB.txt and citing the relevant articles.
